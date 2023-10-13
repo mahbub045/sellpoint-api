@@ -9,6 +9,9 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/api/v1", (req, res) => {
     res.send("Sellpoint Api")
 })
+app.get("/", (req, res) => {
+    res.send("Sellpoint Api")
+})
 app.use("/api/v1/product", productRoute);
 app.use("/api/v1/category", categoryRoute);
 module.exports = app;
