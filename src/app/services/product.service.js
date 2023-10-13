@@ -13,4 +13,8 @@ const getProductByCategory = async (category) => {
     return result;
 
 }
-module.exports = { getProductsService, saveProductsService, getProductByCategory };
+const getFilterData = async (productName) => {
+    const result = await Product.find({ name: { $regex: productName, $options: "i" } }).exec();
+    return result;
+}
+module.exports = { getProductsService, saveProductsService, getProductByCategory, getFilterData };

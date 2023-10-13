@@ -1,11 +1,18 @@
 const { categoryByCategoryName, getCategoryService } = require("../services/category.service");
 const ProductsService = require("../services/product.service");
 
+
 exports.getProducts = async (req, res) => {
-    const products = await ProductsService.getProductsService();
+    const product = req.query.name;
+    let products;
+    if (product) {
+        products = await ProductsService.getFilterData(product);
+    } else {
+        products = await ProductsService.getProductsService();
+    }
     const categoryDetails = await getCategoryService();
-    const result = categoryDetails.map(category => {
-        const categoryProducts = products.filter(product => product.category === category.category);
+    const result = categoryDetails?.map(category => {
+        const categoryProducts = products?.filter(product => product.category === category.category);
         return {
             category: category.category,
             categorySlug: category.categorySlug,
@@ -29,4 +36,10 @@ exports.getProductByCategory = async (req, res) => {
     const payload = [{ category: category, categorySlug: categorySlug, products: products }];
     // res.status(200).json({ status: "Seccess", message: "Seccessfully Create Products", result: payload });
     res.status(200).json(payload);
+}
+
+exports.getSearchData = async (req, res) => {
+    const allProduct = await ProductsService.getProductsService();
+    const productName = allProduct.map(product => ({ name: product.name }));
+    res.status(200).json(productName);
 }
