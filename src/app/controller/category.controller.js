@@ -1,4 +1,3 @@
-//category
 const CategoryService = require("../services/category.service");
 exports.createCategory = async (req, res) => {
     const category = req.body;
